@@ -1,0 +1,21 @@
+version: '2'
+services:
+  flink-master:
+    image: bde2020/flink-master:0.10.1-hadoop2.7
+    hostname: flink-master
+    environment:
+      - INIT_DAEMON_STEP=setup_flink
+    networks:
+      - flink
+    ports:
+      - "8983:8983"
+  flink-worker:
+    image: bde2020/flink-worker:0.10.1-hadoop2.7
+    hostname: flink-worker
+    networks:
+      - flink
+    links:
+      - "flink-master:flink-master"
+
+networks:
+  flink:
